@@ -4,7 +4,7 @@ import rpy2.robjects as ro
 from rpy2.rinterface_lib.embedded import RRuntimeError
 
 # pandas-R df conversion
-pandas2ri.activate()# Replace with your file path
+pandas2ri.activate()
 
 expression_df = pd.read_csv(gene_exp, index_col= 0)
 celltypes = expression_df.columns

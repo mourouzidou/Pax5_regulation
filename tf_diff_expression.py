@@ -4,17 +4,14 @@ from rpy2.robjects.packages import importr
 import pandas as pd
 import matplotlib.pyplot as plt
 
-# Enable automatic conversion between R and pandas
 pandas2ri.activate()
 
-# Install DESeq2 if not already installed
+# Install DESeq2 
 r('''.libPaths(c("~/R/x86_64-pc-linux-gnu-library/4.2", .libPaths()))
 if (!requireNamespace("BiocManager", quietly = TRUE))
     install.packages("BiocManager")
 BiocManager::install("DESeq2", update = FALSE)
 ''')
-
-# Import DESeq2
 deseq2 = importr('DESeq2')
 
 
@@ -75,11 +72,8 @@ def run_deseq2_per_cell_type(expression_file, output_dir):
     ''')
 
 
-# Specify input files and parameters
-expression_file = "tf_expr.csv"  # Input gene expression file
-output_dir = "cell_type_deseq2_results"  # Output directory for DESeq2 results
-
-# Create output directory if it doesn't exist
+expression_file = "tf_expr.csv"  
+output_dir = "cell_type_deseq2_results"  
 os.makedirs(output_dir, exist_ok=True)
 
 # Run DESeq2
@@ -89,7 +83,7 @@ run_deseq2_per_cell_type(expression_file, output_dir)
 combined_results_file = os.path.join(output_dir, "combined_all_results.csv")
 combined_results = pd.read_csv(combined_results_file)
 
-# Visualization: Heatmap of all results across cell types
+#  Heatmap of all results across cell types
 heatmap_data = combined_results.pivot_table(
     index='gene', columns='cell_type', values='log2FoldChange', fill_value=0
 )

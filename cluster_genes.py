@@ -4,17 +4,14 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 from scipy.cluster.hierarchy import linkage, leaves_list
 
-# Load the results
 output_dir = "cell_type_deseq2_results"
 combined_results_file = os.path.join(output_dir, "combined_all_results.csv")
 combined_results = pd.read_csv(combined_results_file)
 
-# Pivot the data for heatmap
 heatmap_data = combined_results.pivot_table(
     index='gene', columns='cell_type', values='log2FoldChange', fill_value=0
 )
 
-# Emphasize upregulation (set negative values to 0)
 heatmap_data = heatmap_data.clip(lower=0)
 
 # Hierarchical clustering for genes only
